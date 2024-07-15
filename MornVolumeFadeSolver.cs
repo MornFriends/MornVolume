@@ -7,20 +7,14 @@ using UnityEngine;
 
 namespace MornVolume
 {
-    internal class MornVolumeFadeSolver : MonoBehaviour, IMornVolumeFade
+    public class MornVolumeFadeSolver : MonoBehaviour, IMornVolumeFade
     {
         [SerializeField] private float _defaultFadeInDuration = 0.3f;
         [SerializeField] private float _defaultFadeOutDuration = 0.6f;
         private readonly Subject<MornVolumePair> _fadeUpdateSubject = new();
         private readonly Dictionary<string, MornVolumePair> _fadeVolumeDict = new();
         private CancellationTokenSource _cts;
-        private Action _onStart;
         internal IObservable<MornVolumePair> OnFadeUpdate => _fadeUpdateSubject;
-
-        private void Start()
-        {
-            _onStart?.Invoke();
-        }
 
         void IMornVolumeFade.FadeInImmediate(string key)
         {
@@ -65,11 +59,6 @@ namespace MornVolume
         async UniTask IMornVolumeFade.FadeOutAsync(string key, float duration, CancellationToken ct)
         {
             await FadeClearAsync(key, duration, ct);
-        }
-
-        internal void Initialize(Action onStart)
-        {
-            _onStart = onStart;
         }
 
         internal MornVolumePair GetVolumePair(string key)

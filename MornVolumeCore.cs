@@ -8,11 +8,12 @@ namespace MornVolume
         private readonly MornVolumeFadeSolver _fadeSolver;
         private readonly IMornVolumeSaver _volumeSaver;
 
-        public MornVolumeCore(IMornVolumeSaver volumeSaver)
+        public MornVolumeCore(IMornVolumeSaver volumeSaver, MornVolumeFadeSolver fadeSolver)
         {
             _volumeSaver = volumeSaver;
-            _fadeSolver = new GameObject(nameof(MornVolumeFadeSolver)).AddComponent<MornVolumeFadeSolver>();
-            _fadeSolver.Initialize(LoadAndApplyVolumes);
+            var trigger = new GameObject(nameof(MornVolumeTrigger)).AddComponent<MornVolumeTrigger>();
+            trigger.Initialize(LoadAndApplyVolumes);
+            _fadeSolver = fadeSolver;
             _fadeSolver.OnFadeUpdate.Subscribe(pair => UpdateVolume(pair.Key));
         }
 
