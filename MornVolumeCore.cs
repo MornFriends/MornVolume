@@ -26,7 +26,7 @@ namespace MornVolume
         {
             volumeRate *= _fadeSolver.GetVolumePair(volumeKey).FadeVolume;
             var volumeDecibel = VolumeRateToDecibel(volumeRate);
-            MornVolumeGlobalSettings.Instance.Mixer.SetFloat(volumeKey, volumeDecibel);
+            MornVolumeGlobal.I.Mixer.SetFloat(volumeKey, volumeDecibel);
             _volumeSaver.Save(volumeKey, volumeRate);
         }
 
@@ -35,12 +35,12 @@ namespace MornVolume
             var volumeRate = _volumeSaver.Load(volumeKey);
             volumeRate *= _fadeSolver.GetVolumePair(volumeKey).FadeVolume;
             var volumeDecibel = VolumeRateToDecibel(volumeRate);
-            MornVolumeGlobalSettings.Instance.Mixer.SetFloat(volumeKey, volumeDecibel);
+            MornVolumeGlobal.I.Mixer.SetFloat(volumeKey, volumeDecibel);
         }
 
         private void LoadAndApplyVolumes()
         {
-            foreach (var volumeKey in MornVolumeGlobalSettings.Instance.VolumeKeys) UpdateVolume(volumeKey);
+            foreach (var volumeKey in MornVolumeGlobal.I.VolumeKeys) UpdateVolume(volumeKey);
         }
 
         private static float VolumeRateToDecibel(float rate)
