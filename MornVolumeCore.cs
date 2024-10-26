@@ -43,7 +43,7 @@ namespace MornVolume
             foreach (var volumeKey in MornVolumeGlobal.I.VolumeKeys) UpdateVolume(volumeKey);
         }
 
-        private static float VolumeRateToDecibel(float rate)
+        public static float VolumeRateToDecibel(float rate)
         {
             return rate <= 0 ? -5000 : (1 - rate) * -30;
         }
